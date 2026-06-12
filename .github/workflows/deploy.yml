@@ -20,6 +20,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Validate weather secret
+        run: |
+          if [ -z "${WEATHER_API_KEY}" ]; then
+            echo "ERROR: WEATHER_API_KEY secret is not available from the Weather environment."
+            exit 1
+          fi
+        env:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+
       - name: Inject API Key
         run: |
           sed -i "s/__WEATHER_API_KEY__/${{ secrets.WEATHER_API_KEY }}/g" js/config.js
