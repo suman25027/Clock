@@ -16,7 +16,11 @@ const Weather = {
    * Initialize weather module with API key
    */
   init() {
-    if (typeof CONFIG === 'undefined' || !CONFIG.WEATHER_API_KEY) {
+    if (
+      typeof CONFIG === 'undefined' ||
+      !CONFIG.WEATHER_API_KEY ||
+      CONFIG.WEATHER_API_KEY === '__WEATHER_API_KEY__'
+    ) {
       console.warn('⚠️ Weather API not configured');
       return;
     }

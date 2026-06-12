@@ -31,10 +31,28 @@ jobs:
 
       - name: Inject API Key
         run: |
-          sed -i "s/__WEATHER_API_KEY__/${{ secrets.WEATHER_API_KEY }}/g" js/config.js
+          python3 - <<'PY'
+          import pathlib, os
+
+          config_path = pathlib.Path('js/config.js')
+          content = config_path.read_text()
+          placeholder = '__WEATHER_API_KEY__'
+          api_key = os.environ.get('WEATHER_API_KEY', '').strip()
+
+          if not api_key:
+              raise SystemExit('ERROR: WEATHER_API_KEY secret is missing or empty.')
+          if placeholder not in content:
+              raise SystemExit('ERROR: placeholder string not found in js/config.js.')
+
+          content = content.replace(placeholder, api_key)
+          config_path.write_text(content)
+
+          if placeholder in config_path.read_text():
+              raise SystemExit('ERROR: failed to replace WEATHER_API_KEY placeholder.')
+          print('✅ WEATHER_API_KEY injected successfully.')
         env:
           WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
