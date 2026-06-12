@@ -2,12 +2,14 @@
  * TimeOS Configuration
  * API keys and environment variables
  * 
- * WARNING: For production, use environment variables properly
- * This is exposed client-side for the demo only.
+ * NOTE: For GitHub Pages, API keys are injected by GitHub Actions during deployment
+ * Never commit sensitive keys to the repository.
  */
 
 const CONFIG = {
-  WEATHER_API_KEY: '7f2a70ea55fa42d98ae12305261206',
+  // API key is injected by GitHub Actions at deploy time
+  // Placeholder: __WEATHER_API_KEY__ is replaced during build
+  WEATHER_API_KEY: '__WEATHER_API_KEY__',
   WEATHER_API_BASE: 'https://api.weatherapi.com/v1',
   
   // Add more config here as needed
@@ -16,6 +18,6 @@ const CONFIG = {
 };
 
 // Validate critical config
-if (!CONFIG.WEATHER_API_KEY) {
-  console.warn('⚠️ WEATHER_API_KEY not configured. Weather features will be disabled.');
+if (!CONFIG.WEATHER_API_KEY || CONFIG.WEATHER_API_KEY === '__WEATHER_API_KEY__') {
+  console.warn('⚠️ WEATHER_API_KEY not configured. Weather features will be disabled. Make sure GitHub Actions Secret is set.');
 }
