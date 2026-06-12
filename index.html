@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>TimeOS | Intelligent Time Intelligence</title>
+  <meta name="description" content="Smart alarm, focus timer, and time cost tracker. Stop wasting time, start living intentionally.">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar / Navigation (Mobile bottom nav + Desktop sidebar) -->
+    <nav class="nav" id="nav">
+      <button class="nav-item active" data-view="dashboard">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-view="smartAlarm">
+        <span class="nav-icon">⏰</span>
+        <span>Smart Alarm</span>
+      </button>
+      <button class="nav-item" data-view="focusTimer">
+        <span class="nav-icon">🎯</span>
+        <span>Focus Timer</span>
+      </button>
+      <button class="nav-item" data-view="weather">
+        <span class="nav-icon">🌤️</span>
+        <span>Weather</span>
+      </button>
+      <button class="nav-item" data-view="analytics">
+        <span class="nav-icon">📈</span>
+        <span>Analytics</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Dashboard View -->
+      <section id="dashboardView" class="view active-view">
+        <div class="view-header">
+          <h1>Time Dashboard</h1>
+          <p class="subhead">Your time, visualized.</p>
+        </div>
+        <div class="dashboard-grid">
+          <div class="stat-card" id="weatherDisplay" style="grid-column: 1 / -1; background: linear-gradient(135deg, var(--surface), var(--surface-elevated));">
+            <!-- Weather will be loaded here -->
+            <div style="text-align: center; padding: 1rem; color: var(--text-muted);">Loading weather...</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Today's Focus Time</div>
+            <div class="stat-value" id="todayFocus">0h 0m</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Time Cost (Today)</div>
+            <div class="stat-value" id="todayCost">$0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Next Alarm</div>
+            <div class="stat-value" id="nextAlarmPreview">--:--</div>
+            <div class="stat-trend" id="alarmAdjustment"></div>
+          </div>
+          <div class="stat-card full-width">
+            <div class="stat-label">Time Well Spent Ratio</div>
+            <div class="progress-bar-container">
+              <div class="progress-fill" id="wellSpentFill" style="width: 0%"></div>
+            </div>
+            <div class="stat-small" id="wellSpentText">Loading...</div>
+          </div>
+        </div>
+        <div class="quote-section">
+          <p id="motivationalQuote">"The bad news is time flies. The good news is you're the pilot."</p>
+        </div>
+      </section>
+
+      <!-- Smart Alarm View -->
+      <section id="smartAlarmView" class="view">
+        <div class="view-header">
+          <h1>⏰ Smart Alarm</h1>
+          <p class="subhead">Syncs with calendar, traffic & weather to optimize your wake-up</p>
+        </div>
+        <div id="weatherAlert" style="margin-bottom: 1.5rem;"></div>
+        <div class="alarm-card">
+          <div class="alarm-time-display" id="alarmTimeDisplay">07:30 AM</div>
+          <input type="time" id="baseAlarmTime" value="07:30" class="alarm-input">
+          
+          <div class="intel-section">
+            <h3>📅 Calendar Events (Demo)</h3>
+            <div class="calendar-events" id="calendarEvents">
+              <label class="event-item"><input type="checkbox" data-event="meeting" checked> 9:00 AM - Team Standup (30 min drive)</label>
+              <label class="event-item"><input type="checkbox" data-event="gym"> 8:00 AM - Morning Gym (15 min drive)</label>
+            </div>
+            
+            <h3>🚗 Traffic Intelligence</h3>
+            <div class="traffic-slider">
+              <span>🐢 Light Traffic</span>
+              <input type="range" id="trafficSlider" min="0" max="45" value="20" step="5">
+              <span>🚨 Heavy (+45min)</span>
+            </div>
+            <div class="traffic-value" id="trafficValue">+20 min extra travel</div>
+          </div>
+          
+          <button class="btn-primary" id="calculateSmartAlarmBtn">Recalculate Smart Alarm</button>
+          <div class="alarm-result" id="smartAlarmResult">
+            <strong>Recommended Alarm:</strong> <span id="recommendedTime">07:10 AM</span>
+            <p id="alarmReason">Adjusting for 30 min commute + traffic</p>
+          </div>
+          <button class="btn-secondary" id="setSmartAlarmBtn">Set This Alarm</button>
+        </div>
+      </section>
+
+      <!-- Focus Timer (Pomodoro + ADHD-friendly visual countdown) -->
+      <section id="focusTimerView" class="view">
+        <div class="view-header">
+          <h1>🎯 Focus Timer</h1>
+          <p class="subhead">Visual time blindness helper</p>
+        </div>
+        <div class="focus-container">
+          <div class="focus-timer-display" id="focusTimerDisplay">25:00</div>
+          <div class="focus-progress-ring">
+            <svg width="200" height="200" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="90" fill="none" stroke="#2d3e50" stroke-width="8"/>
+              <circle cx="100" cy="100" r="90" fill="none" stroke="#3b82f6" stroke-width="8" stroke-dasharray="565.48" stroke-dashoffset="0" id="focusProgressRing" transform="rotate(-90 100 100)"/>
+            </svg>
+            <div class="focus-mode-badge" id="focusModeBadge">🎯 Focus</div>
+          </div>
+          <div class="focus-controls">
+            <button class="focus-btn" id="focusStartBtn">▶ Start</button>
+            <button class="focus-btn" id="focusPauseBtn">⏸ Pause</button>
+            <button class="focus-btn" id="focusResetBtn">🔄 Reset</button>
+          </div>
+          <div class="session-selector">
+            <button class="session-btn active" data-session="25">25 min</button>
+            <button class="session-btn" data-session="50">50 min</button>
+            <button class="session-btn" data-session="5">5 min break</button>
+          </div>
+          <div class="manual-timer-control">
+            <div class="manual-timer-field">
+              <label for="manualTimerMinutesInput">Minutes</label>
+              <input type="number" id="manualTimerMinutesInput" placeholder="25" min="0" class="manual-timer-input">
+            </div>
+            <div class="manual-timer-field">
+              <label for="manualTimerSecondsInput">Seconds</label>
+              <input type="number" id="manualTimerSecondsInput" placeholder="00" min="0" max="59" class="manual-timer-input">
+            </div>
+            <button id="setManualTimerBtn" class="btn-secondary">Set Custom Timer</button>
+          </div>
+          <div id="focusToast" class="focus-toast hidden"></div>
+          <div class="focus-stats">
+            <div>✅ Today's Focus: <strong id="focusTotalToday">0</strong> min</div>
+            <div>⚡ Sessions completed: <strong id="sessionsCompleted">0</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Weather View -->
+      <section id="weatherView" class="view">
+        <div class="view-header">
+          <h1>🌤️ Weather</h1>
+          <p class="subhead">Real-time weather & forecast</p>
+        </div>
+        <div class="weather-grid">
+          <div class="weather-card current-weather">
+            <h3>Current Weather</h3>
+            <div id="currentWeatherDisplay" style="padding: 1.5rem;">
+              <div style="text-align: center; color: var(--text-muted);">Loading weather data...</div>
+            </div>
+          </div>
+          <div class="weather-card">
+            <h3>📍 Location</h3>
+            <input type="text" id="weatherLocationInput" placeholder="Enter city name" class="location-input" style="width: 100%; padding: 0.75rem; margin-bottom: 0.75rem;">
+            <button id="searchWeatherBtn" class="btn-primary" style="width: 100%; margin-top: 0;">Search Weather</button>
+          </div>
+          <div class="weather-card full-width">
+            <h3>📅 7-Day Forecast</h3>
+            <div id="forecastDisplay" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 1rem;">
+              <div style="text-align: center; color: var(--text-muted);">Loading forecast...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Analytics View -->
+      <section id="analyticsView" class="view">
+        <div class="view-header">
+          <h1>📈 Time Analytics</h1>
+          <p class="subhead">Where your life actually goes</p>
+        </div>
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <h3>⏱️ Weekly Focus</h3>
+            <div class="weekly-bars" id="weeklyBars"></div>
+          </div>
+          <div class="analytics-card">
+            <h3>💸 Lifetime Time Cost</h3>
+            <div class="big-number" id="lifetimeCost">$0</div>
+            <div class="small-note">Based on tracked purchases</div>
+          </div>
+          <div class="analytics-card">
+            <h3>🎯 Most Productive Hour</h3>
+            <div id="peakHour">--:--</div>
+          </div>
+        </div>
+        <button class="btn-secondary" id="resetAllDataBtn">Reset All Demo Data</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils/storage.js"></script>
+  <script src="js/modules/weather.js"></script>
+  <script src="js/modules/smartAlarm.js"></script>
+  <script src="js/modules/focusTimer.js"></script>
+  <script src="js/modules/timeCost.js"></script>
+  <script src="js/modules/analytics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
