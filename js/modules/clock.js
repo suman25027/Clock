@@ -86,12 +86,14 @@ const Clock = (() => {
         for (let i = 1; i <= 12; i++) {
             const angle = (i * 30 - 90) * Math.PI / 180;
             const radius = 82;
-            const x = radius * Math.cos(angle);
-            const y = radius * Math.sin(angle);
+            const centerX = 100;
+            const centerY = 100;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
             const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
             const innerRadius = 74;
-            const x1 = innerRadius * Math.cos(angle);
-            const y1 = innerRadius * Math.sin(angle);
+            const x1 = centerX + innerRadius * Math.cos(angle);
+            const y1 = centerY + innerRadius * Math.sin(angle);
             line.setAttribute("x1", x1);
             line.setAttribute("y1", y1);
             line.setAttribute("x2", x);

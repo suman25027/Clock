@@ -133,7 +133,7 @@ https://<username>.github.io/Clock
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/c25il027suman-oss/Clock.git
+   git clone https://github.com/c25il027/Clock.git
    cd Clock
    ```
 
@@ -412,7 +412,7 @@ Contributions are welcome! Please follow the code style conventions:
 
 ```bash
 # 1. Clone and create feature branch
-git clone https://github.com/c25il027suman-oss/Clock.git
+git clone https://github.com/c25il027/Clock.git
 git checkout -b feature/your-feature
 
 # 2. Make changes
@@ -443,8 +443,8 @@ MIT License — See [LICENSE](LICENSE) for details.
 ## 📞 Support
 
 For issues, feature requests, or questions:
-- 🐛 [Open an Issue](https://github.com/c25il027suman-oss/Clock/issues)
-- 💬 [Start a Discussion](https://github.com/c25il027suman-oss/Clock/discussions)
+- 🐛 [Open an Issue](https://github.com/c25il027/Clock/issues)
+- 💬 [Start a Discussion](https://github.com/c25il027/Clock/discussions)
 
 ---
 
@@ -466,4 +466,4 @@ If you find TimeOS helpful, please star ⭐ the repository!
 
 ---
 
-**Made with ❤️ by [c25il027Suman](https://github.com/c25il027suman-oss)**
+**Made with ❤️ by [Basnet Suman](https://suman-basnet.com.np)**

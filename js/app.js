@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   FocusTimer.init();
   TimeCost.init();
   Analytics.init();
+  Clock.init();
 
   // Setup navigation
   setupNavigation();
